@@ -1,5 +1,5 @@
 //@version=6
-indicator(title="Average True Range", shorttitle="ATR", overlay=false, timeframe="1", timeframe_gaps=true)
+indicator(title="MHT Average True Range", shorttitle="MHT ATR", overlay=false, timeframe="1", timeframe_gaps=true)
 length = input.int(title="Length", defval=21, minval=1)
 band = input.float(title="ATR band", defval=10, minval=1, step=0.1)
 smoothing = input.string(title="Smoothing", defval="RMA", options=["RMA", "SMA", "EMA", "WMA"])
