@@ -1,15 +1,19 @@
-//@version=6
-indicator(title="MHT Average True Range", shorttitle="MHT ATR", overlay=false, timeframe="1", timeframe_gaps=true)
-length = input.int(title="Length", defval=21, minval=1)
-band = input.float(title="ATR band", defval=10, minval=1, step=0.1)
-smoothing = input.string(title="Smoothing", defval="RMA", options=["RMA", "SMA", "EMA", "WMA"])
-ma_function(source, length) =>
-	switch smoothing
-		"RMA" => ta.rma(source, length)
-		"SMA" => ta.sma(source, length)
-		"EMA" => ta.ema(source, length)
-		=> ta.wma(source, length)
-plot(ma_function(ta.tr(true), length), title = "ATR", color=color.new(#0591ee, 16), style = plot.style_columns)
-atrBand = hline(band, "ATR Lower Band", color=#787B86)
-zero = hline(0, "Zero line", color=#787B86)
-fill(atrBand,zero, color=color.rgb(5, 18, 195, 33), title = "Low Volatility Zone")
+ //@version=6
+indicator(title="MHT True Range", shorttitle="MHT TR", overlay=false, timeframe="1", timeframe_gaps=true)
+
+length = input.int(title="Range length", defval=10, minval=1)
+lineW = input.int(title="Line width", defval=3, minval=1)
+bandH = input.float(title="Higher band", defval=100, minval=1, step=1)
+bandL = input.float(title="Lower band", defval=33, minval=1, step=1)
+fullRange = math.abs(high - low)
+
+float cumulativeRange = fullRange
+for i = 1 to (length -1)
+    cumulativeRange := cumulativeRange + fullRange[i]
+
+fullTenRange = math.abs(ta.highest(high,length) - ta.lowest(low,length))
+atrBand = hline(bandL, "TR Lower Band", color=color.rgb(0, 0, 0), linestyle = hline.style_solid, linewidth = lineW)
+zero = hline(bandH, "Zero line", color=color.rgb(0, 0, 0), linestyle = hline.style_solid, linewidth = lineW)
+
+plot(cumulativeRange, title = "Full Range", color=color.new(#ffffff, 40), style = plot.style_columns)
+plot(fullTenRange, title = "Full Range", color=color.new(#0591ee, 16), style = plot.style_columns)
