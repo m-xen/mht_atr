@@ -5,6 +5,7 @@ length = input.int(title="Range length", defval=10, minval=1)
 lineW = input.int(title="Line width", defval=3, minval=1)
 bandH = input.float(title="Higher band", defval=100, minval=1, step=1)
 bandL = input.float(title="Lower band", defval=33, minval=1, step=1)
+
 fullRange = math.abs(high - low)
 
 float cumulativeRange = fullRange
