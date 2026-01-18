@@ -1,7 +1,7 @@
  //@version=6
 indicator(title="MHT True Range", shorttitle="MHT TR", overlay=false, timeframe="1", timeframe_gaps=true)
 
-length = input.int(title="Range length", defval=10, minval=1)
+length = input.int(title="Range length minutes", defval=10, minval=1)
 lineW = input.int(title="Line width", defval=3, minval=1)
 bandTarget = input.float(title="Target band", defval=33, minval=1, step=1)
 bandCasio = input.float(title="Casio band", defval=20, minval=1, step=1)
