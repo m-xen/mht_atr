@@ -1,19 +1,20 @@
  //@version=6
 indicator(title="MHT True Range", shorttitle="MHT TR", overlay=false, timeframe="1", timeframe_gaps=true)
 
-length = input.int(title="Range length minutes", defval=10, minval=1)
+lengthB = input.int(title="Basic range minutes", defval=10, minval=1)
+lengthC = input.int(title="Cumulative range minutes", defval=3, minval=1)
 lineW = input.int(title="Line width", defval=3, minval=1)
 bandTarget = input.float(title="Target band", defval=33, minval=1, step=1)
 bandCasio = input.float(title="Casio band", defval=20, minval=1, step=1)
 fullRange = math.abs(high - low)
 
 float cumulativeRange = fullRange
-for i = 1 to (length -1)
+for i = 1 to (lengthC -1)
     cumulativeRange := cumulativeRange + fullRange[i]
 
-basicRange = math.abs(ta.highest(high,length) - ta.lowest(low,length))
-atrBandTarget = hline(bandTarget, "Target Band", color=color.rgb(0, 0, 0), linestyle = hline.style_solid, linewidth = lineW)
-atrBandCasio = hline(bandCasio, "Casio Band", color=color.rgb(0, 0, 0), linestyle = hline.style_solid, linewidth = lineW)
+basicRange = math.abs(ta.highest(high,lengthB) - ta.lowest(low,lengthB))
+atrBandTarget = hline(bandTarget, "Target Band", color=color.blue, linestyle = hline.style_solid, linewidth = lineW)
+atrBandCasio = hline(bandCasio, "Casio Band", color=color.blue, linestyle = hline.style_solid, linewidth = lineW)
 
-plot(cumulativeRange, title = "Cumulative Range", color=color.new(#ffffff, 40), style = plot.style_columns)
-plot(basicRange, title = "Basic Range", color=color.new(#0591ee, 16), style = plot.style_columns)
+plot(cumulativeRange, title = "Cumulative Range", color=color.new(#ffffff, 0), style = plot.style_columns)
+plot(basicRange, title = "Basic Range", color=color.new(#0591ee, 40), style = plot.style_columns)
