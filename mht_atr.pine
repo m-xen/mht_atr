@@ -6,29 +6,19 @@ int maLenInput = input.int(21, "MA length", 1)
 lengthB = input.int(title="Basic range minutes", defval=10, minval=1)
 lengthC = input.int(title="Cumulative range minutes", defval=3, minval=1)
 lineW = input.int(title="Line width", defval=3, minval=1)
-bandTarget = input.float(title="Target band", defval=33, minval=1, step=1)
-bandCasio = input.float(title="Casio band", defval=20, minval=1, step=1)
+bandTarget = input.float(title="Target range", defval=33, minval=1, step=1)
+bandCasio = input.float(title="Casio range", defval=20, minval=1, step=1)
 fullRange = math.abs(high - low)
-
-ma(float source, int length, simple string maType) =>
-    switch maType
-        "EMA" => ta.ema(source, length)
-        "SMA" => ta.sma(source, length)
 
 float cumulativeRange = fullRange
 for i = 1 to (lengthC -1)
     cumulativeRange := cumulativeRange + fullRange[i]
 
 basicRange = math.abs(ta.highest(high,lengthB) - ta.lowest(low,lengthB))
-atrBandTarget = hline(bandTarget, "Target Band", color=color.blue, linestyle = hline.style_solid, linewidth = lineW)
-atrBandCasio = hline(bandCasio, "Casio Band", color=color.blue, linestyle = hline.style_solid, linewidth = lineW)
 
-float maFast = ma(cumulativeRange, maLenInput, maTypeInput)
-float maSlow = ma(basicRange, maLenInput, maTypeInput)
-float signal = (maFast + maSlow) /2
+color sColor = basicRange > bandCasio ? basicRange > bandTarget ? color.rgb(76, 175, 79, 33) : color.rgb(255, 153, 0, 33) : color.rgb(255, 82, 82, 33)
+color cColor = cumulativeRange > bandCasio ? cumulativeRange > bandTarget ? color.rgb(76, 175, 79, 33) : color.rgb(255, 153, 0, 33) : color.rgb(255, 82, 82, 33)
 
-color sColor = signal > bandCasio ? signal > bandTarget ? color.green : color.orange : color.red
 
-plot(cumulativeRange, title = "Cumulative Range", color=color.new(#ffffff, 0), style = plot.style_columns)
-plot(basicRange, title = "Basic Range", color=color.new(#0591ee, 40), style = plot.style_columns)
-plot(signal, "Signal", sColor, linewidth = 2)
+plot(cumulativeRange, title = "Cumulative Range", color=cColor, style = plot.style_columns)
+plot(basicRange, title = "Basic Range", color=sColor, style = plot.style_columns)
