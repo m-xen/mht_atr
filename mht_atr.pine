@@ -16,9 +16,8 @@ for i = 1 to (lengthC -1)
 
 basicRange = math.abs(ta.highest(high,lengthB) - ta.lowest(low,lengthB))
 
-color sColor = basicRange > bandCasio ? basicRange > bandTarget ? color.rgb(76, 175, 79, 33) : color.rgb(255, 153, 0, 33) : color.rgb(255, 82, 82, 33)
-color cColor = cumulativeRange > bandCasio ? cumulativeRange > bandTarget ? color.rgb(76, 175, 79, 33) : color.rgb(255, 153, 0, 33) : color.rgb(255, 82, 82, 33)
-
+color sColor = basicRange > bandTarget ? color.rgb(76, 175, 79, 33) : basicRange < bandTarget and basicRange > bandCasio ? color.rgb(255, 153, 0, 33) : color.rgb(255, 82, 82, 33)
+color cColor = cumulativeRange > bandTarget ? color.rgb(76, 175, 79, 33) : cumulativeRange < bandTarget and basicRange > bandCasio ? color.rgb(255, 153, 0, 33) : color.rgb(255, 82, 82, 33)
 
 plot(cumulativeRange, title = "Cumulative Range", color=cColor, style = plot.style_columns)
 plot(basicRange, title = "Basic Range", color=sColor, style = plot.style_columns)
